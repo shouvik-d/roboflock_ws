@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<robot name="URDF" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+<transmission name="diff_bar_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="diff_bar_joint">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="diff_bar_motor">
+    <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="lf_wheel_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+<<<<<<< HEAD
+  <joint name="lf_wheel_to_coupling (1)">
+=======
+  <joint name="lf_wheel_to_coupling">
+>>>>>>> faa0e8358101bead9ad2591501b71885c5b5ade5
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="lf_wheel_motor">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="lr_wheel_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+<<<<<<< HEAD
+  <joint name="lr_wheel_to_coupling (1)">
+=======
+  <joint name="lr_wheel_to_coupling">
+>>>>>>> faa0e8358101bead9ad2591501b71885c5b5ade5
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="lr_wheel_motor">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="rf_wheel_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+<<<<<<< HEAD
+  <joint name="rf_wheel_to_coupling (1)">
+=======
+  <joint name="rf_wheel_to_coupling">
+>>>>>>> faa0e8358101bead9ad2591501b71885c5b5ade5
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="rf_wheel_motor">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="rr_wheel_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+<<<<<<< HEAD
+  <joint name="rr_wheel_to_coupling (1)">
+=======
+  <joint name="rr_wheel_to_coupling">
+>>>>>>> faa0e8358101bead9ad2591501b71885c5b5ade5
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="rr_wheel_motor">
+    <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+</robot>

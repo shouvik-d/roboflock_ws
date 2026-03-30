@@ -1,0 +1,6 @@
+lidar_processor:
+  ros__parameters:
+    crop_angle_min : 0.0 #Minimum angle to crop the scan
+    crop_angle_max : 1.57 #Maximum angle to crop the scan (90 degrees)
+    crop_distance_min : 0.11999 #Minimum distance to crop the scan
+    crop_distance_max : 2.0 #Maximum distance to crop the scan
