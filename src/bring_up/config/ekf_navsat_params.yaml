@@ -1,154 +1,167 @@
-ekf_filter_node_local:
- 	ros__parameters:
- 	 	frequency: 60.0
-  		publish_tf: true
-	  	two_d_mode: true
-	  	print_diagnostics: true
-	  	debug: false
-	  	initial_state: 
-	  	[
-			0.0, 0.0, 0.0, 
-			0.0, 0.0, 0.0, 
-			0.0, 0.0, 0.0, 
-			0.0, 0.0, 0.0, 
-			0.0, 0.0, 0.0
-	  	]
-	  	
-	  	map_frame: map
-	  	odom_frame: odom
-	  	base_link_frame: base_link
-	  	world_frame: odom
-	  	
-	  	imu0: /imu/data
-	  	imu0_config: 
-	  	[
-	  		false, false, false,
-	  		false, false, false,
-	  		false, false, false,
-	  		true, true, true,
-	  		true, true, true
-	  	]
-	  	imu0_queue_size: 10
-	  	imu0_differential: true
-	  	imu0_relative: false
-	  	imu0_remove_gravitational_acceleration: true
-	  	
-	  	odom0: /odom_rf2o
-	  	odom0_config: 
-	  	[
-	  		true, true, true,
-	  		false, false, true,
-	  		true, true, true, 
-	  		false, false, true,
-	  		false, false, false
-	  	]
-	  	odom0_queue_size: 10
-	  	odom0_differential: false
-	  	odom0_relative: false
-	  	
-	  	use_control: false
-	  	process_noise_covariance: 
-	  	[
-	  		1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-	  		0.0,    1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+%YAML 1.2
+---
+ekf_filter_node_odom:
+  ros__parameters:
+    frequency: 60.0
+    publish_tf: true
+    two_d_mode: true
+    print_diagnostics: true
+    debug: false
+    permit_corrected_publication: false
+    publish_acceleration: true
+    initial_state:
+      [
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0,
+        0.0, 0.0, 0.0
+      ]
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: odom
+
+    imu0: /imu/data
+    imu0_config:
+      [
+        false, false, false,
+        false, false, true,
+        false, false, false,
+        false, false, true,
+        true, true, false
+      ]
+    imu0_queue_size: 10
+    imu0_differential: false
+    imu0_relative: false
+    imu0_remove_gravitational_acceleration: true
+      
+    odom0: /odom_rf2o
+    odom0_config: 
+      [
+        true, true, false,
+        false, false, false,
+        true, true, true, 
+        false, false, false,
+        false, false, false
+      ]
+    odom0_queue_size: 10
+    odom0_differential: false
+    odom0_relative: true
+    
+    use_control: false
+      
+    process_noise_covariance: 
+      [
+        1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+        0.0,    1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
             0.0,    0.0,    1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
             0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
             0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.01,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.1,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3
-		]
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.01,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.1,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,
+      0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3
+    ]
 
-	  	
-	  	
-ekf_filter_node_global:
- 	ros__parameters:
- 		frequency: 30.0
-  		publish_tf: true
-	  	two_d_mode: true
-	  	print_diagnostics: true
-	  	debug: false
-	  	
-	  	map_frame: map
-	  	odom_frame: odom
-	  	base_link_frame: base_link
-	  	world_frame: map
-	  	
-	  	imu0: /imu/data
-	  	imu0_config: 
-	  	[
-	  		false, false, false,
-	  		false, false, true,
-	  		false, false, false,
-	  		true, true, true,
-	  		true, true, true
-	  	]
-	  	imu0_queue_size: 10
-	  	imu0_differential: true
-	  	imu0_relative: false
-	  	imu0_remove_gravitational_acceleration: true
-	  	
-	  	odom0: /odom_rf2o
-	  	odom0_config: 
-	  	[
-	  		true, true, true,
-	  		false, false, true,
-	  		true, true, true, 
-	  		false, false, true,
-	  		false, false, false
-	  	]
-	  	odom0_queue_size: 10
-	  	odom0_differential: false
-	  	odom0_relative: false
-	  	
-	  	odom1: /odometry/gps
-	  	odom1_config: 
-	  	[
-	  		true, true, true,
-	  		false, false, false,
-	  		true, true, true, 
-	  		false, false, false,
-	  		false, false, false
-	  	]
-	  	odom1_queue_size: 10
-	  	
-	  	use_control: false
-	  	
-	  	process_noise_covariance: 
-	  	[
-	  		1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-	  		0.0,    1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-            0.0,    0.0,    1e-3,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-            0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-            0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.01,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.5,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.1,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3,    0.0,
-			0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.3
-		]
+    initial_estimate_covariance: [1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9]
+    
+      
+ekf_filter_node_map:
+    ros__parameters:
+      frequency: 50.0
+      publish_tf: true
+      two_d_mode: true
+      print_diagnostics: true
+      debug: false
+      permit_corrected_publication: false
+      publish_acceleration: false
+      initial_state:
+        [
+          0.0, 0.0, 0.0, 
+          0.0, 0.0, 0.0, 
+          0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0
+        ]
+      
+      map_frame: map
+      odom_frame: odom
+      base_link_frame: base_link
+      world_frame: map
+      
+      imu0: /imu/data
+      imu0_config: 
+        [
+          false, false, false,
+          false, false, true,
+          false, false, false,
+          false, false, true,
+          true, true, false
+        ]
+      imu0_queue_size: 10
+      imu0_differential: true
+      imu0_relative: false
+      imu0_remove_gravitational_acceleration: true
+      
+      odom0: /odometry/gps
+      odom0_config: 
+        [
+          true, true, true,
+          false, false, false,
+          true, true, true, 
+          false, false, false,
+          false, false, false
+        ]
+      odom0_queue_size: 10
+      odom0_differential: false
+      odom0_relative: false
+      
+      use_control: false
+      
+      process_noise_covariance:
+         [
+          1e-3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 1e-3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 1e-3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3
+        ]
 
-	  	
+      initial_estimate_covariance: 
+        [1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9, 1e-9]
+
+
 navsat_transform_node:
-	ros__parameters:
-		frequency: 30.0
-		delay: 3.0
-		magnetic_declination_radians: 0.0
-		yaw_offset: 0.0
-		zero_altitude: true
-		publish_filtered_gps: true
-		broadcast_utm_transform: true
-		use_odometry_yaw: true
-		wait_for_datum: false
+  ros__parameters:
+    frequency: 50.0
+    delay: 3.0
+    # Measurement is for UB lat/long, Burning Man will require recalculating at
+    # https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml 
+    magnetic_declination_radians: 0.17872172 
+    # Need to calibrate IMU to read '0' when facing East
+    # 'use_odometry_yaw' might make this param irrelevant
+    yaw_offset: 0.0
+    zero_altitude: true
+    publish_filtered_gps: true
+    broadcast_utm_transform: true
+    # Uses output of local ekf node (odometry/filtered) for yaw
+    # instead of the yaw given by the IMU
+    use_odometry_yaw: true
+    wait_for_datum: false
