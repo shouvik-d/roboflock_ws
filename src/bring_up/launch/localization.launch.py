@@ -11,30 +11,31 @@ def generate_launch_description():
     
     return LaunchDescription([
         Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node_local',
+            package='robot_localization', 
+            executable='ekf_node', 
+            name='ekf_filter_node_odom',
             output='screen',
             parameters=[ekf_config],
-            remappings=[('/odometry/filtered', '/odometry/local')]
-        ),
+            remappings=[('odometry/filtered', 'odometry/local')]           
+            ),
         Node(
-            package='robot_localization',
-            executable='ekf_node',
-            name='ekf_filter_node_global',
+            package='robot_localization', 
+            executable='ekf_node', 
+            name='ekf_filter_node_map',
             output='screen',
             parameters=[ekf_config],
-            remappings=[('/odometry/filtered', '/odometry/global')]
-        ),
+            remappings=[('odometry/filtered', 'odometry/global')]
+            ),           
         Node(
-            package='robot_localization',
-            executable='navsat_transform_node',
+            package='robot_localization', 
+            executable='navsat_transform_node', 
             name='navsat_transform',
             output='screen',
             parameters=[ekf_config],
-            remappings=[
-                ('/gps/fix', '/gps/fix'),
-                ('/odometry/filtered', '/odometry/global')
-            ]
-        )
+            remappings=[('imu', 'imu/data'),
+                        ('gps/fix', 'gps/fix'), 
+                        ('gps/filtered', 'gps/filtered'),
+                        ('odometry/gps', 'odometry/gps'),
+                        ('odometry/filtered', 'odometry/local')]           
+            )
     ])

@@ -61,11 +61,11 @@ def generate_launch_description():
 		'ultrasonic_publisher.launch.py'
 	)
 	
-	battery_launch_file = os.path.join(
-		get_package_share_directory('battery_pkg'),
-		'launch',
-		'battery_monitor.launch.py'
-	)
+	# battery_launch_file = os.path.join(
+	# 	get_package_share_directory('battery_pkg'),
+	# 	'launch',
+	# 	'battery_monitor.launch.py'
+	# )
 	
 	motor_launch_file = os.path.join(
 		get_package_share_directory('motor_controller_pkg'),
@@ -255,7 +255,7 @@ def generate_launch_description():
 	])
 	
 	
-	return launch.LaunchDescription([
+	return LaunchDescription([
 		declare_autostart,
 		declare_slam,
 		declare_use_xacro,
@@ -283,7 +283,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"*Ultrasonic Publisher initialized*",
+				on_stdout_regex=r"*Ultrasonic Publisher initialized*",
 				on_start=localization_nodes
 			)
 		),
@@ -294,7 +294,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"*Localization nodes initialized*",
+				on_stdout_regex=r"*Localization nodes initialized*",
 				on_start=slam_node
 			)
 		),
@@ -305,7 +305,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.docode()}"
 				),
-				on_stdout_regex:r"*SLAM toolbox node intialized*",
+				on_stdout_regex=r"*SLAM toolbox node intialized*",
 				on_start=motor_node
 			)
 		),
@@ -316,7 +316,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"Motors initialized*",
+				on_stdout_regex=r"Motors initialized*",
 				on_start=nav2_node
 			)
 		),
@@ -327,7 +327,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"Nav2 initialized*",
+				on_stdout_regex=r"Nav2 initialized*",
 				on_start=None
 			)
 		)

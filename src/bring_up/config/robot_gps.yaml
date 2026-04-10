@@ -1,0 +1,7 @@
+gps:
+  ros__parameters:
+    frequency: 5.0
+    port: /dev/ttyACM0
+    baud: 9600
+    frame_id: gps
+    useRMC: false  #false is GGA
