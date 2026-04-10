@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+import launch
 from launch import LaunchDescription
 from launch.actions import (
 	DeclareLaunchArgument,
@@ -283,7 +284,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"*Ultrasonic Publisher initialized*",
+				on_stdout_regex=r"*Ultrasonic Publisher initialized*",
 				on_start=localization_nodes
 			)
 		),
@@ -294,7 +295,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"*Localization nodes initialized*",
+				on_stdout_regex=r"*Localization nodes initialized*",
 				on_start=slam_node
 			)
 		),
@@ -305,7 +306,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.docode()}"
 				),
-				on_stdout_regex:r"*SLAM toolbox node intialized*",
+				on_stdout_regex=r"*SLAM toolbox node intialized*",
 				on_start=motor_node
 			)
 		),
@@ -316,7 +317,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"Motors initialized*",
+				on_stdout_regex=r"Motors initialized*",
 				on_start=nav2_node
 			)
 		),
@@ -327,7 +328,7 @@ def generate_launch_description():
 				on_stdout=lambda event: LogInfo(
 					msg=f"Found: {event.text.decode()}"
 				),
-				on_stdout_regex:r"Nav2 initialized*",
+				on_stdout_regex=r"Nav2 initialized*",
 				on_start=None
 			)
 		)

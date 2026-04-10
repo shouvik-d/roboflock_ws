@@ -5,9 +5,8 @@ import odrive
 from odrive.enums import AxisState
 import math
 
-WHEEL_RADIUS = 0.1       # meters — update to your measured value
-WHEEL_SEPARATION = 0.64  # meters — update to your measured value
-GEAR_RATIO = 30.0        # 30:1 gearbox
+WHEEL_RADIUS = 0.254       # meters
+WHEEL_SEPARATION = 0.3  # meters (left-right track width)
 
 SERIAL_NUMBERS = {
     "FR": "316633543334",
@@ -47,8 +46,8 @@ class DiffDriveController(Node):
         turns_right = (v_right / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
 
         # Left wheels are negated to match physical mounting orientation
-        self.drives["FL"].axis0.controller.input_vel = -turns_left
-        self.drives["RL"].axis0.controller.input_vel = -turns_left
+        self.drives["FL"].axis0.controller.input_vel =  -turns_left
+        self.drives["RL"].axis0.controller.input_vel =  -turns_left
         self.drives["FR"].axis0.controller.input_vel =  turns_right
         self.drives["RR"].axis0.controller.input_vel =  turns_right
 
