@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import launch
 from launch import LaunchDescription
 from launch.actions import (
 	DeclareLaunchArgument,

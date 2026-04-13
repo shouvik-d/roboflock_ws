@@ -8,6 +8,9 @@ import math
 WHEEL_RADIUS = 0.254       # meters — update to your measured value
 WHEEL_SEPARATION = 0.3  # meters — update to your measured value
 GEAR_RATIO = 30.0        # 30:1 gearbox
+WHEEL_RADIUS = 0.254       # meters — update to your measured value
+WHEEL_SEPARATION = 0.3  # meters — update to your measured value
+GEAR_RATIO = 30.0        # 30:1 gearbox
 
 SERIAL_NUMBERS = {
     "FR": "316633543334",
