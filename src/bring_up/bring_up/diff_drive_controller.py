@@ -5,10 +5,8 @@ import odrive
 from odrive.enums import AxisState
 import math
 
-WHEEL_RADIUS = 0.254       # meters — update to your measured value
-WHEEL_SEPARATION = 0.3  # meters — update to your measured value
-GEAR_RATIO = 30.0        # 30:1 gearbox
-WHEEL_RADIUS = 0.254       # meters — update to your measured value
+
+WHEEL_RADIUS = 0.254       # meters 
 WHEEL_SEPARATION = 0.3  # meters — update to your measured value
 GEAR_RATIO = 30.0        # 30:1 gearbox
 
@@ -40,11 +38,21 @@ class DiffDriveController(Node):
     def _cmd_vel_cb(self, msg: Twist):
         v = msg.linear.x
         w = msg.angular.z
-
+        print("Received cmd_vel:")
+        print("linear velocity (v): ", v)
+        print("angular velocity (w): ", w)
+        #testing 
+    
         # Diff drive kinematics: v_left/right in m/s
+        #try finding the rpm and then convert it to m/s ? 
         v_left  = v - (w * WHEEL_SEPARATION / 2.0)
         v_right = v + (w * WHEEL_SEPARATION / 2.0)
+        print("printing v_left and v_right in m/s for debugging")
+        print("v_left: ", v_left)
+        print("v_right: ", v_right)
 
+
+        
         # Convert m/s -> motor turns/sec (accounting for gear ratio)
         turns_left  = (v_left  / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
         turns_right = (v_right / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
