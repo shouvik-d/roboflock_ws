@@ -45,7 +45,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
 	# Paths to launch files >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	imu_launch_file = os.path.join(
-		get_package_share_directory('mpu9250driver'),
+		get_package_share_directory('bring_up'),
 		'launch',
 		'mpu9250driver_launch.py'
 	)
@@ -63,7 +63,7 @@ def generate_launch_description():
 	)
 	
 	battery_launch_file = os.path.join(
-		get_package_share_directory('battery_pkg'),
+		get_package_share_directory('bring_up'),
 		'launch',
 		'battery_monitor.launch.py'
 	)
@@ -87,7 +87,7 @@ def generate_launch_description():
 	)
 	
 	robot_gps_launch_file = os.path.join(
-		get_package_share_directory('robot_gps_pkg'),
+		get_package_share_directory('bring_up'),
 		'launch',
 		'robot_gps.launch.py'
 	)
