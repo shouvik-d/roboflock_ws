@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import odrive
-from odrive.enums import AxisState
+from odrive.enums import AxisState, InputMode, ControlMode
 import math
 
 WHEEL_RADIUS = 0.254       # meters — update to your measured value
@@ -33,6 +33,8 @@ class DiffDriveController(Node):
             self.get_logger().info(f'Connecting to {name} ({serial})...')
             dev = odrive.find_sync(serial_number=serial)
             dev.clear_errors()
+            dev.axis0.controller.config.input_mode = InputMode.VEL_RAMP
+            dev.axis0.controller.config.vel_ramp_rate = 10.0
             dev.axis0.requested_state = AxisState.CLOSED_LOOP_CONTROL
             self.drives[name] = dev
             self.get_logger().info(f'{name} connected and enabled')
