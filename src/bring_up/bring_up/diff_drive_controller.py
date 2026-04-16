@@ -59,13 +59,13 @@ class DiffDriveController(Node):
         turns_right = (v_right / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
 
         # damp right wheels when turning right ( pivot turn) , and left wheels when turning left
-        if v > 0 : # turning right
+        if w < 0 : # turning right
             turns_right = turns_right * 0.0
             turns_left = turns_left * 1.5
             print("dampening right wheels")
             
         #else turn left
-        if v < 0 : # turning left
+        if w > 0 : # turning left
                 turns_left = turns_left * 0.0
                 turns_right = turns_right * 1.5
                 print("dampening left wheels")
@@ -74,8 +74,8 @@ class DiffDriveController(Node):
         # Left wheels are negated to match physical mounting orientation
         self.drives["FL"].axis0.controller.input_vel =  turns_left
         self.drives["RL"].axis0.controller.input_vel =  turns_left
-        self.drives["FR"].axis0.controller.input_vel =  turns_right
-        self.drives["RR"].axis0.controller.input_vel =  turns_right
+        self.drives["FR"].axis0.controller.input_vel = -turns_right
+        self.drives["RR"].axis0.controller.input_vel = -turns_right
 
     def destroy_node(self):
         self.get_logger().info('Shutting down — stopping and idling motors')
