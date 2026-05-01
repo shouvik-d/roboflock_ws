@@ -249,25 +249,21 @@ def generate_launch_description():
             actions=[sensor_nodes]
         ),
  
-        # t=DELAY_LOCALIZATION  Localization + laser odometry
         TimerAction(
             period=6.0,
             actions=[localization_nodes]
         ),
  
-        # t=DELAY_SLAM  SLAM toolbox
         TimerAction(
             period=10.0,
             actions=[slam_node]
         ),
  
-        # t=DELAY_MOTORS  Differential drive controller
         TimerAction(
             period=14.0,
             actions=[motor_node]
         ),
  
-        # t=DELAY_NAV2  Nav2 stack + goal pose publisher
         TimerAction(
             period=18.0,
             actions=[nav2_node]
