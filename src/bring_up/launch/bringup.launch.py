@@ -47,7 +47,7 @@ def generate_launch_description():
 	imu_launch_file = os.path.join(
 		get_package_share_directory('bring_up'),
 		'launch',
-		'mpu9250driver_launch.py'
+		'mpu9250.launch.py'
 	)
 	
 	lidar_launch_file = os.path.join(
@@ -61,17 +61,11 @@ def generate_launch_description():
 		'launch',
 		'ultrasonic_publisher.launch.py'
 	)
-	
-	battery_launch_file = os.path.join(
-		get_package_share_directory('bring_up'),
-		'launch',
-		'battery_monitor.launch.py'
-	)
-	
+		
 	motor_launch_file = os.path.join(
-		get_package_share_directory('motor_controller_pkg'),
-		'launch',
-		'motor_controller.launch.py'
+		get_package_share_directory('bring_up'),
+		'bring_up',
+		'diff_drive_controller.py'
 	)
 	
 	beacon_launch_file = os.path.join(
@@ -105,7 +99,7 @@ def generate_launch_description():
 	)
 	
 	description_launch_file = os.path.join(
-		get_package_share_directory('roboflock_description'),
+		get_package_share_directory('bring_up'),
 		'launch',
 		'robot_state_publisher.launch.py'
 	)
@@ -143,21 +137,12 @@ def generate_launch_description():
 	)
 	
 	urdf_file = os.path.join(
-		get_package_share_directory('roboflock_description'),
-		'urdf',
-		'robot.urdf.xacro'
-	)
+    get_package_share_directory('urdf_description'),
+    'urdf',
+    'URDF.xacro'
+	)	
     
 	# 0.) Static Transforms >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	robot_description_content = ParameterValue(
-		Command([
-			FindExecutable(name='xacro'), ' ', urdf_file
-		]) if LaunchConfiguration('use_xacro') else Command([
-			'cat ', urdf_file
-		]),
-		value_type=str
-	)
-	
 	
 	static_tf_node = GroupAction([
 		LogInfo(msg="*** Starting Static Transforms ***"),
@@ -196,10 +181,6 @@ def generate_launch_description():
         
         IncludeLaunchDescription(
         	PythonLaunchDescriptionSource(ultrasonic_launch_file),
-        ),
-        
-        IncludeLaunchDescription(
-        	PythonLaunchDescriptionSource(battery_launch_file),
         )
 	])
 	
@@ -260,80 +241,95 @@ def generate_launch_description():
 		declare_autostart,
 		declare_slam,
 		declare_use_xacro,
-		
+	
 		static_tf_node,	
 		gps_nodes,
-		
-		# GPS & HC-12 nodes should launch separately since the
-		# event handler can only distinguish one event at a time
-		RegisterEventHandler(
-			event_handler=OnProcessIO(
-				target_action=gps_nodes,
-				on_stdout=lambda event: LogInfo(
-					msg=f"Found: {event.text.decode()}"
-				),
-				on_stdout_regex=r"*GPS nodes initialized*",
-				on_start=sensor_nodes
-			)
-		),
-		
-		
-		RegisterEventHandler(
-			event_handler=OnProcessIO(
-				target_action=sensor_nodes,
-				on_stdout=lambda event: LogInfo(
-					msg=f"Found: {event.text.decode()}"
-				),
-				on_stdout_regex=r"*Ultrasonic Publisher initialized*",
-				on_start=localization_nodes
-			)
-		),
-		
-		RegisterEventHandler(
-			event_handler=OnProcessIO(
-				target_action=localization_nodes,
-				on_stdout=lambda event: LogInfo(
-					msg=f"Found: {event.text.decode()}"
-				),
-				on_stdout_regex=r"*Localization nodes initialized*",
-				on_start=slam_node
-			)
-		),
-		
-		RegisterEventHandler(
-			event_handler=OnProcessIO(
-				target_action=slam_node,
-				on_stdout=lambda event: LogInfo(
-					msg=f"Found: {event.text.docode()}"
-				),
-				on_stdout_regex=r"*SLAM toolbox node intialized*",
-				on_start=motor_node
-			)
-		),
-		
-		RegisterEventHandler(
-			event_handler=OnProcessIO(
-				target_action=motor_node,
-				on_stdout=lambda event: LogInfo(
-					msg=f"Found: {event.text.decode()}"
-				),
-				on_stdout_regex=r"Motors initialized*",
-				on_start=nav2_node
-			)
-		),
-		
-		RegisterEventHandler(
-			event_handler=OnProcessIO(
-				target_action=nav2_node,
-				on_stdout=lambda event: LogInfo(
-					msg=f"Found: {event.text.decode()}"
-				),
-				on_stdout_regex=r"Nav2 initialized*",
-				on_start=None
-			)
-		)
-				
+		TimerAction(
+            period=3.0,
+            actions=[sensor_nodes]
+        ),
+ 
+        # t=DELAY_LOCALIZATION  Localization + laser odometry
+        TimerAction(
+            period=6.0,
+            actions=[localization_nodes]
+        ),
+ 
+        # t=DELAY_SLAM  SLAM toolbox
+        TimerAction(
+            period=10.0,
+            actions=[slam_node]
+        ),
+ 
+        # t=DELAY_MOTORS  Differential drive controller
+        TimerAction(
+            period=14.0,
+            actions=[motor_node]
+        ),
+ 
+        # t=DELAY_NAV2  Nav2 stack + goal pose publisher
+        TimerAction(
+            period=18.0,
+            actions=[nav2_node]
+        ),
     ])
+		
+	# 	RegisterEventHandler(
+	# 		event_handler=OnProcessIO(
+	# 			target_action=sensor_nodes,
+	# 			on_stdout=lambda event: LogInfo(
+	# 				msg=f"Found: {event.text.decode()}"
+	# 			),
+	# 			on_stdout_regex=r"*Ultrasonic Publisher initialized*",
+	# 			on_start=localization_nodes
+	# 		)
+	# 	),
+		
+	# 	RegisterEventHandler(
+	# 		event_handler=OnProcessIO(
+	# 			target_action=localization_nodes,
+	# 			on_stdout=lambda event: LogInfo(
+	# 				msg=f"Found: {event.text.decode()}"
+	# 			),
+	# 			on_stdout_regex=r"*Localization nodes initialized*",
+	# 			on_start=slam_node
+	# 		)
+	# 	),
+		
+	# 	RegisterEventHandler(
+	# 		event_handler=OnProcessIO(
+	# 			target_action=slam_node,
+	# 			on_stdout=lambda event: LogInfo(
+	# 				msg=f"Found: {event.text.docode()}"
+	# 			),
+	# 			on_stdout_regex=r"*SLAM toolbox node intialized*",
+	# 			on_start=motor_node
+	# 		)
+	# 	),
+		
+	# 	RegisterEventHandler(
+	# 		event_handler=OnProcessIO(
+	# 			target_action=motor_node,
+	# 			on_stdout=lambda event: LogInfo(
+	# 				msg=f"Found: {event.text.decode()}"
+	# 			),
+	# 			on_stdout_regex=r"Motors initialized*",
+	# 			on_start=nav2_node
+	# 		)
+	# 	),
+		
+	# 	RegisterEventHandler(
+	# 		event_handler=OnProcessIO(
+	# 			target_action=nav2_node,
+	# 			on_stdout=lambda event: LogInfo(
+	# 				msg=f"Found: {event.text.decode()}"
+	# 			),
+	# 			on_stdout_regex=r"Nav2 initialized*",
+	# 			on_start=None
+	# 		)
+	# 	)
+				
+    # ])
 	
 	
 if __name__ == '__main__':

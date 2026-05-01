@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 from glob import glob
 
-package_name = 'URDF_description'
+package_name = 'urdf_description'
 
 setup(
     name=package_name,
