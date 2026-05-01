@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import odrive
-from odrive.enums import AxisState
+from odrive.enums import AxisState, InputMode
 import math
 
 
@@ -31,6 +31,8 @@ class DiffDriveController(Node):
             self.get_logger().info(f'Connecting to {name} ({serial})...')
             dev = odrive.find_sync(serial_number=serial)
             dev.clear_errors()
+            dev.axis0.controller.config.input_mode = InputMode.VEL_RAMP
+            dev.axis0.controller.config.vel_ramp_rate = 10.0
             dev.axis0.requested_state = AxisState.CLOSED_LOOP_CONTROL
             self.drives[name] = dev
             self.get_logger().info(f'{name} connected and enabled')
@@ -59,7 +61,7 @@ class DiffDriveController(Node):
         turns_right = (v_right / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
 
         # damp right wheels when turning right ( pivot turn) , and left wheels when turning left
-        if w < 0 : # turning right
+        """if w < 0 : # turning right
             turns_right = turns_right * 0.0
             turns_left = turns_left * 1.5
             print("dampening right wheels")
@@ -68,7 +70,7 @@ class DiffDriveController(Node):
         if w > 0 : # turning left
                 turns_left = turns_left * 0.0
                 turns_right = turns_right * 1.5
-                print("dampening left wheels")
+                print("dampening left wheels")"""
 
 
         # Left wheels are negated to match physical mounting orientation

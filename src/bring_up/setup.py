@@ -29,6 +29,7 @@ setup(
     entry_points={
         'console_scripts': [
             'diff_drive_controller = bring_up.diff_drive_controller:main',
+            'self_destruct = bring_up.self_destruct:main',
         ],
     },
 )
