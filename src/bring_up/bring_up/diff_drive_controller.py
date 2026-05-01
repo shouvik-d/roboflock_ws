@@ -5,10 +5,8 @@ import odrive
 from odrive.enums import AxisState, InputMode, ControlMode
 import math
 
-WHEEL_RADIUS = 0.254       # meters — update to your measured value
-WHEEL_SEPARATION = 0.3  # meters — update to your measured value
-GEAR_RATIO = 30.0        # 30:1 gearbox
-WHEEL_RADIUS = 0.254       # meters — update to your measured value
+
+WHEEL_RADIUS = 0.254       # meters 
 WHEEL_SEPARATION = 0.3  # meters — update to your measured value
 GEAR_RATIO = 30.0        # 30:1 gearbox
 
@@ -42,20 +40,44 @@ class DiffDriveController(Node):
     def _cmd_vel_cb(self, msg: Twist):
         v = msg.linear.x
         w = msg.angular.z
-
+        print("Received cmd_vel:")
+        print("linear velocity (v): ", v)
+        print("angular velocity (w): ", w)
+        #testing 
+    
         # Diff drive kinematics: v_left/right in m/s
+        #try finding the rpm and then convert it to m/s ? 
         v_left  = v - (w * WHEEL_SEPARATION / 2.0)
         v_right = v + (w * WHEEL_SEPARATION / 2.0)
+        print("printing v_left and v_right in m/s for debugging")
+        print("v_left: ", v_left)
+        print("v_right: ", v_right)
+
+
+        
 
         # Convert m/s -> motor turns/sec (accounting for gear ratio)
         turns_left  = (v_left  / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
         turns_right = (v_right / (2.0 * math.pi * WHEEL_RADIUS)) * GEAR_RATIO
 
+        # damp right wheels when turning right ( pivot turn) , and left wheels when turning left
+        if w < 0 : # turning right
+            turns_right = turns_right * 0.0
+            turns_left = turns_left * 1.5
+            print("dampening right wheels")
+            
+        #else turn left
+        if w > 0 : # turning left
+                turns_left = turns_left * 0.0
+                turns_right = turns_right * 1.5
+                print("dampening left wheels")
+
+
         # Left wheels are negated to match physical mounting orientation
         self.drives["FL"].axis0.controller.input_vel =  turns_left
         self.drives["RL"].axis0.controller.input_vel =  turns_left
-        self.drives["FR"].axis0.controller.input_vel =  turns_right
-        self.drives["RR"].axis0.controller.input_vel =  turns_right
+        self.drives["FR"].axis0.controller.input_vel = -turns_right
+        self.drives["RR"].axis0.controller.input_vel = -turns_right
 
     def destroy_node(self):
         self.get_logger().info('Shutting down — stopping and idling motors')

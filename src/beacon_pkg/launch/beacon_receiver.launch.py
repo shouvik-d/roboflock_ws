@@ -7,7 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     bringup_dir = get_package_share_directory('bring_up')
     
-    robot_gps_config = os.path.join(bringup_dir, 'config', 'robot_gps.yaml')
+    config = os.path.join(bringup_dir, 'config', 'beacon_gps.yaml')
     
     return LaunchDescription([
 
@@ -16,7 +16,7 @@ def generate_launch_description():
             executable='nmea_serial_driver', 
             name='gps',
             output='screen',
-            parameters=[robot_gps_config],
-            remappings=[('/fix', '/gps/robot/fix')]
+            parameters=[config],
+            remappings=[('/fix', '/gps/beacon/fix')]
     )
         ])

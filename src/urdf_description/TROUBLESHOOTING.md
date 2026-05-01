@@ -117,10 +117,10 @@ sudo apt install ros-humble-ros-gz-sim ros-humble-ros-gz-bridge
 # Clean build
 cd ~/ros2_ws
 rm -rf build/ install/ log/
-colcon build --packages-select URDF_description
+colcon build --packages-select urdf_description
 
 # Check for URDF syntax errors
-check_urdf ~/ros2_ws/src/URDF_description/urdf/URDF.xacro
+check_urdf ~/ros2_ws/src/urdf_description/urdf/URDF.xacro
 ```
 
 ### 7. Simulation Time Issues
@@ -182,7 +182,7 @@ gz topic -e -t /model/my_bot/odometry
 gz model -m my_bot -i
 
 # Check URDF
-check_urdf ~/ros2_ws/src/URDF_description/urdf/URDF.xacro
+check_urdf ~/ros2_ws/src/urdf_description/urdf/URDF.xacro
 ```
 
 ### View Logs
@@ -203,13 +203,13 @@ pkill -9 gz
 pkill -9 ros2
 
 # Restart
-ros2 launch URDF_description gazebo.launch.py
+ros2 launch urdf_description gazebo.launch.py
 ```
 
 ### Rebuild Package
 ```bash
 cd ~/ros2_ws
-colcon build --packages-select URDF_description --symlink-install
+colcon build --packages-select urdf_description --symlink-install
 source install/setup.bash
 ```
 
@@ -222,7 +222,7 @@ gz sim --version
 ros2 pkg list | grep ros_gz
 
 # Check dependencies
-rosdep check URDF_description
+rosdep check urdf_description
 ```
 
 ## Getting Help
