@@ -22,7 +22,7 @@ int init_arduino(void)
 	arduino_fd = open (ARDUINO_PORT, O_RDWR | O_NOCTTY);
 	if (arduino_fd < 0)
 	{
-		return -1;
+		return errno;
 	}
 	
 	struct termios tty;
@@ -31,7 +31,7 @@ int init_arduino(void)
 	if (tcgetattr(arduino_fd, &tty) != 0)
 	{
 		close(arduino_fd);
-		return -2;
+		return errno;
 	}
 	
 	cfsetispeed(&tty, B9600);
@@ -69,7 +69,7 @@ int init_arduino(void)
 	if (tcsetattr(arduino_fd, TCSANOW, &tty) != 0)
 	{
 		close(arduino_fd);
-		return -3;
+		return errno;
 	}
 	
 	/* Discards data written but not transmitted,

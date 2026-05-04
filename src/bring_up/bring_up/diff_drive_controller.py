@@ -2,7 +2,7 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 import odrive
-from odrive.enums import AxisState, InputMode
+from odrive.enums import AxisState, InputMode, ControlMode
 import math
 
 
