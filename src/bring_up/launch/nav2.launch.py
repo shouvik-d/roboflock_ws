@@ -9,14 +9,27 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     bringup_dir = get_package_share_directory('bring_up')
     
-    nav2_params_file = os.path.join(bringup_dir, 'config', 'nav2_params.yaml')
+    # nav2_params_file = os.path.join(bringup_dir, 'config', 'nav2_params.yaml')
     
+    # nav2_bringup_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource([
+    #         get_package_share_directory('nav2_bringup'), '/launch', '/bringup_launch.py'
+    #     ]),
+    #     launch_arguments={
+    #         'params_file': nav2_params_file,
+    #         'autostart': LaunchConfiguration('autostart')
+    #     }.items()
+    # )
+    
+    slam_params_file = os.path.join(bringup_dir, 'config', 'slam_params.yaml')
+    
+    # Use slam_launch.py instead of bringup_launch.py
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            get_package_share_directory('nav2_bringup'), '/launch', '/bringup_launch.py'
+            get_package_share_directory('nav2_bringup'), '/launch', '/slam_launch.py'
         ]),
         launch_arguments={
-            'params_file': nav2_params_file,
+            'params_file': slam_params_file,
             'autostart': LaunchConfiguration('autostart')
         }.items()
     )

@@ -62,11 +62,11 @@ def generate_launch_description():
 		'ultrasonic_publisher.launch.py'
 	)
 		
-	motor_launch_file = os.path.join(
-		get_package_share_directory('bring_up'),
-		'bring_up',
-		'diff_drive_controller.py'
-	)
+	# motor_launch_file = os.path.join(
+	# 	get_package_share_directory('bring_up'),
+	# 	'bring_up',
+	# 	'diff_drive_controller.py'
+	# )
 	
 	beacon_launch_file = os.path.join(
 		get_package_share_directory('beacon_pkg'),
@@ -213,13 +213,13 @@ def generate_launch_description():
 	
 	# 5.) Motor Controller >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
-	motor_node = GroupAction([
-		LogInfo(msg="*** Starting Motor Controller ***"),
+	# motor_node = GroupAction([
+	# 	LogInfo(msg="*** Starting Motor Controller ***"),
 		
-		IncludeLaunchDescription(
-			PythonLaunchDescriptionSource(motor_launch_file),
-		),
-	])
+	# 	IncludeLaunchDescription(
+	# 		PythonLaunchDescriptionSource(motor_launch_file),
+	# 	),
+	# ])
 	
 	
 	# 6.) Nav2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -259,10 +259,10 @@ def generate_launch_description():
             actions=[slam_node]
         ),
  
-        TimerAction(
-            period=14.0,
-            actions=[motor_node]
-        ),
+        # TimerAction(
+        #     period=14.0,
+        #     actions=[motor_node]
+        # ),
  
         TimerAction(
             period=18.0,
