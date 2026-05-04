@@ -26,7 +26,7 @@ def generate_launch_description():
     # Use slam_launch.py instead of bringup_launch.py
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
-            get_package_share_directory('nav2_bringup'), '/launch', '/slam_launch.py'
+            get_package_share_directory('bring_up'), '/launch', '/slam.launch.py'
         ]),
         launch_arguments={
             'params_file': slam_params_file,
