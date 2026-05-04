@@ -1,7 +1,7 @@
 gps:
   ros__parameters:
     frequency: 5.0
-    port: /dev/ttyTHS1
-    baud: 9600
+    port: /dev/robot_receiver
+    baud: 115200
     frame_id: gps
     useRMC: false  #false is GGA

@@ -51,7 +51,7 @@ def generate_launch_description():
 	)
 	
 	lidar_launch_file = os.path.join(
-		get_package_share_directory('rplidar_ros'),
+		get_package_share_directory('bring_up'),
 		'launch',
 		'rplidar_a1_launch.py'
 	)
