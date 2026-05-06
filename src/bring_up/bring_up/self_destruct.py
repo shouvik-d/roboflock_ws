@@ -40,7 +40,7 @@ BASH_SCRIPT = '/home/roboflock/roboflock_ws/src/bring_up/bring_up/bring_up.sh'  
 LINEAR_MIN,  LINEAR_MAX  = 0.5, 10.0
 ANGULAR_MIN, ANGULAR_MAX = 0.5, 10.0
 SPEED_STEP = 0.5
-
+STEER_DEADZONE = 0.1
 
 class PS4Teleop(Node):
     def __init__(self):
@@ -83,8 +83,10 @@ class PS4Teleop(Node):
                 twist.linear.x = -self.linear_speed     # backward
 
             # Right stick left=+1 -> turn left = positive angular.z
-            twist.angular.z = msg.axes[AXIS_STEER] * self.angular_speed
-
+            steer = msg.axes[AXIS_STEER]
+            if abs(steer) < STEER_DEADZONE:
+                steer = 0.0
+            twist.angular.z = steer * self.angular_speed
         self._cmd_pub.publish(twist)
 
     # -- D-pad speed adjustment (edge-triggered, ignores held) -----------------
