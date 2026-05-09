@@ -268,7 +268,7 @@ def generate_launch_description():
             period=18.0,
             actions=[nav2_node]
         ),
-    ])
+     ])
 		
 	# 	RegisterEventHandler(
 	# 		event_handler=OnProcessIO(
