@@ -15,12 +15,12 @@ def generate_launch_description():
             os.path.join(
                 get_package_share_directory('nav2_bringup'),
                 'launch',
-                'bringup_launch.py'
+                'navigation_launch.py'
             )
         ),
         launch_arguments={
             'params_file': nav2_params_file,
-            'autostart': 'true',
+            'autostart': LaunchConfiguration('autostart'),
             'use_sim_time': 'false'
         }.items()
     )

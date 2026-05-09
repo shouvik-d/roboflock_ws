@@ -172,6 +172,8 @@ behavior_server:
 
 bt_navigator:
   ros__parameters:
+    default_nav_to_pose_bt_xml: "/opt/ros/humble/share/nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml"
+    default_nav_through_poses_bt_xml: "/opt/ros/humble/share/nav2_bt_navigator/behavior_trees/navigate_through_poses_w_replanning_and_recovery.xml"
     use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
@@ -210,7 +212,6 @@ bt_navigator:
     - nav2_round_robin_node_bt_node
     - nav2_transform_available_condition_bt_node
     - nav2_time_expired_condition_bt_node
-    - nav2_path_expiring_timer_condition_bt_node
     - nav2_distance_traveled_condition_bt_node
     - nav2_single_trigger_bt_node
     - nav2_goal_updated_controller_bt_node

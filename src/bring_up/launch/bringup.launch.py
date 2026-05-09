@@ -87,7 +87,7 @@ def generate_launch_description():
 	)
 	
 	laser_odom_launch_file = os.path.join(
-		get_package_share_directory('rf2o_laser_odometry'),
+		get_package_share_directory('bring_up'),
 		'launch',
 		'rf2o_laser_odometry.launch.py'
 	)
@@ -136,11 +136,11 @@ def generate_launch_description():
 		description='If true, use xacro to process the URDF'
 	)
 	
-	urdf_file = os.path.join(
-    get_package_share_directory('urdf_description'),
-    'urdf',
-    'URDF.xacro'
-	)	
+	# urdf_file = os.path.join(
+    # get_package_share_directory('urdf_description'),
+    # 'urdf',
+    # 'URDF.xacro'
+	# )	
     
 	# 0.) Static Transforms >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
@@ -244,6 +244,7 @@ def generate_launch_description():
 	
 		static_tf_node,	
 		gps_nodes,
+		
 		TimerAction(
             period=3.0,
             actions=[sensor_nodes]
@@ -265,68 +266,10 @@ def generate_launch_description():
         # ),
  
         TimerAction(
-            period=18.0,
+            period=14.0,
             actions=[nav2_node]
         ),
      ])
 		
-	# 	RegisterEventHandler(
-	# 		event_handler=OnProcessIO(
-	# 			target_action=sensor_nodes,
-	# 			on_stdout=lambda event: LogInfo(
-	# 				msg=f"Found: {event.text.decode()}"
-	# 			),
-	# 			on_stdout_regex=r"*Ultrasonic Publisher initialized*",
-	# 			on_start=localization_nodes
-	# 		)
-	# 	),
-		
-	# 	RegisterEventHandler(
-	# 		event_handler=OnProcessIO(
-	# 			target_action=localization_nodes,
-	# 			on_stdout=lambda event: LogInfo(
-	# 				msg=f"Found: {event.text.decode()}"
-	# 			),
-	# 			on_stdout_regex=r"*Localization nodes initialized*",
-	# 			on_start=slam_node
-	# 		)
-	# 	),
-		
-	# 	RegisterEventHandler(
-	# 		event_handler=OnProcessIO(
-	# 			target_action=slam_node,
-	# 			on_stdout=lambda event: LogInfo(
-	# 				msg=f"Found: {event.text.docode()}"
-	# 			),
-	# 			on_stdout_regex=r"*SLAM toolbox node intialized*",
-	# 			on_start=motor_node
-	# 		)
-	# 	),
-		
-	# 	RegisterEventHandler(
-	# 		event_handler=OnProcessIO(
-	# 			target_action=motor_node,
-	# 			on_stdout=lambda event: LogInfo(
-	# 				msg=f"Found: {event.text.decode()}"
-	# 			),
-	# 			on_stdout_regex=r"Motors initialized*",
-	# 			on_start=nav2_node
-	# 		)
-	# 	),
-		
-	# 	RegisterEventHandler(
-	# 		event_handler=OnProcessIO(
-	# 			target_action=nav2_node,
-	# 			on_stdout=lambda event: LogInfo(
-	# 				msg=f"Found: {event.text.decode()}"
-	# 			),
-	# 			on_stdout_regex=r"Nav2 initialized*",
-	# 			on_start=None
-	# 		)
-	# 	)
-				
-    # ])
-	
-	
 if __name__ == '__main__':
 	generate_launch_description()
