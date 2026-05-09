@@ -33,8 +33,8 @@ class DiffDriveController(Node):
             dev.clear_errors()
             dev.axis0.controller.config.input_mode = InputMode.VEL_RAMP
             dev.axis0.controller.config.vel_ramp_rate = STD_ACCEL
-            dev.axis0.controller.config.vel_gain = 0.02          # default ~0.16, lower = less resistance
-            dev.axis0.controller.config.vel_integrator_gain = 0.05
+            dev.axis0.controller.config.vel_integrator_gain = 0.05  # was 0.05
+            dev.axis0.controller.config.vel_gain = 0.02
             dev.axis0.requested_state = AxisState.CLOSED_LOOP_CONTROL
             self.drives[name] = dev
             self.get_logger().info(f'{name} connected and enabled')

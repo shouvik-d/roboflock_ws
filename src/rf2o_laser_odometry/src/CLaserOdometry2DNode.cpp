@@ -74,10 +74,10 @@ void CLaserOdometry2DNode::process()
     publish();
     new_scan_available = false; //avoids the possibility to run twice on the same laser scan
   }
-  else
-  {
-    RCLCPP_WARN(get_logger(), "Waiting for laser_scans....") ;
-  }
+  // else
+  // {
+  //   RCLCPP_WARN(get_logger(), "Waiting for laser_scans....") ;
+  // }
 }
 
 //-----------------------------------------------------------------------------------

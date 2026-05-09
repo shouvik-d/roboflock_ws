@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     print("Running motors...")
     # Note: 1000 RPM / 60 = 16.6 turns/sec
-    robot.set_rpm(fl=2500, fr=2500, rl=2500, rr=2500)
+    #robot.set_rpm(fl=2500, fr=2500, rl=2500, rr=2500)
 
     time.sleep(10)
 
