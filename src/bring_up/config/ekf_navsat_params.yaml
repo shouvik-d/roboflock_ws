@@ -2,7 +2,7 @@
 ---
 ekf_filter_node_odom:
   ros__parameters:
-    frequency: 60.0
+    frequency: 20.0
     publish_tf: true
     two_d_mode: true
     print_diagnostics: true
@@ -74,7 +74,7 @@ ekf_filter_node_odom:
 
 ekf_filter_node_map:
   ros__parameters:
-    frequency: 20.0
+    frequency: 10.0
     publish_tf: true
     two_d_mode: true
     print_diagnostics: true

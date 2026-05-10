@@ -227,6 +227,16 @@ def generate_launch_description():
 	nav2_node = GroupAction([
 		LogInfo(msg="*** Starting Nav2 ***"),
 		
+		Node(
+        		package='twist_mux',
+        		executable='twist_mux',
+        		name='twist_mux',
+        		parameters=[os.path.join(
+            			get_package_share_directory('bring_up'),
+            			'config', 'twist_mux.yaml'
+        		)],
+       			 remappings=[('/cmd_vel_out', '/cmd_vel')]
+    		),
 		IncludeLaunchDescription(
 			PythonLaunchDescriptionSource(nav2_launch_file),
 		),
@@ -266,7 +276,7 @@ def generate_launch_description():
         # ),
  
         TimerAction(
-            period=14.0,
+            period=20.0,
             actions=[nav2_node]
         ),
      ])

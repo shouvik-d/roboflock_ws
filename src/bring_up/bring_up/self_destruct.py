@@ -54,7 +54,7 @@ class PS4Teleop(Node):
         self._prev_dpad_y = 0.0
         self._prev_ps     = 0
 
-        self._cmd_pub = self.create_publisher(Twist, 'cmd_vel', 10)
+        self._cmd_pub = self.create_publisher(Twist, 'cmd_vel_joy', 10)
         self.create_subscription(Joy, 'joy', self._joy_cb, 10)
 
         self.get_logger().info(
