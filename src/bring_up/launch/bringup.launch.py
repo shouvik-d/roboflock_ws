@@ -224,27 +224,27 @@ def generate_launch_description():
 	
 	# 6.) Nav2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	
-	nav2_node = GroupAction([
-		LogInfo(msg="*** Starting Nav2 ***"),
+	# nav2_node = GroupAction([
+	# 	LogInfo(msg="*** Starting Nav2 ***"),
 		
-		Node(
-        		package='twist_mux',
-        		executable='twist_mux',
-        		name='twist_mux',
-        		parameters=[os.path.join(
-            			get_package_share_directory('bring_up'),
-            			'config', 'twist_mux.yaml'
-        		)],
-       			 remappings=[('/cmd_vel_out', '/cmd_vel')]
-    		),
-		IncludeLaunchDescription(
-			PythonLaunchDescriptionSource(nav2_launch_file),
-		),
+	# 	Node(
+    #     		package='twist_mux',
+    #     		executable='twist_mux',
+    #     		name='twist_mux',
+    #     		parameters=[os.path.join(
+    #         			get_package_share_directory('bring_up'),
+    #         			'config', 'twist_mux.yaml'
+    #     		)],
+    #    			 remappings=[('/cmd_vel_out', '/cmd_vel')]
+    # 		),
+	# 	IncludeLaunchDescription(
+	# 		PythonLaunchDescriptionSource(nav2_launch_file),
+	# 	),
 		
-		IncludeLaunchDescription(
-			PythonLaunchDescriptionSource(goalpose_launch_file),
-		),
-	])
+	# 	IncludeLaunchDescription(
+	# 		PythonLaunchDescriptionSource(goalpose_launch_file),
+	# 	),
+	# ])
 	
 	
 	return launch.LaunchDescription([
