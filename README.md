@@ -7,6 +7,9 @@ The complete ROS 2 workspace for **Roboflock**, an autonomous four-wheel differe
 <!-- Add a short demo clip or photo of the robot here:
 ![Roboflock](docs/roboflock.jpg) -->
 
+Here's a demo of the robot running SLAM:
+https://github.com/user-attachments/assets/d75cb297-7618-43ef-b84b-9466528e4aed
+
 ## What it does
 - Autonomous navigation with **Nav2**, **SLAM**, and `robot_localization`, fusing **LiDAR + GPS**.
 - Custom **ROS 2 nodes** for 2D LiDAR visualization and a differential-drive controller interfaced with **ODrive** motor modules.
