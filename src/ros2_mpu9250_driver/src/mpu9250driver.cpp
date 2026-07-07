@@ -37,7 +37,7 @@ MPU9250Driver::MPU9250Driver() : Node("mpu9250publisher")
   // Create publisher
   publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("/imu/data", 10);
   std::chrono::duration<int64_t, std::milli> frequency =
-      1000ms / this->get_parameter("gyro_range").as_int();
+      1000ms / this->get_parameter("frequency").as_int();
   timer_ = this->create_wall_timer(frequency, std::bind(&MPU9250Driver::handleInput, this));
 }
 
@@ -73,7 +73,7 @@ void MPU9250Driver::declareParameters()
   this->declare_parameter<double>("accel_x_offset", 0.0);
   this->declare_parameter<double>("accel_y_offset", 0.0);
   this->declare_parameter<double>("accel_z_offset", 0.0);
-  this->declare_parameter<int>("frequency", 0.0);
+  this->declare_parameter<int>("frequency", 100);
 }
 
 void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
@@ -81,7 +81,7 @@ void MPU9250Driver::calculateOrientation(sensor_msgs::msg::Imu& imu_message)
   // Calculate Euler angles
   double roll, pitch, yaw;
   roll = atan2(imu_message.linear_acceleration.y, imu_message.linear_acceleration.z);
-  pitch = atan2(-imu_message.linear_acceleration.y,
+  pitch = atan2(-imu_message.linear_acceleration.x,
                 (sqrt(imu_message.linear_acceleration.y * imu_message.linear_acceleration.y +
                       imu_message.linear_acceleration.z * imu_message.linear_acceleration.z)));
   yaw = atan2(mpu9250_->getMagneticFluxDensityY(), mpu9250_->getMagneticFluxDensityX());

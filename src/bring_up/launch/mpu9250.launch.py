@@ -12,11 +12,10 @@ def generate_launch_description():
     return LaunchDescription([
 
         Node(
-            package='mpu9250driver', 
-            executable='mpu9250driver', 
+            package='mpu9250driver',
+            executable='mpu9250driver',
             name='imu',
             output='screen',
-            parameters=[mpu9250_config],
-            remappings=[('sensor_msgs/Imu', '/imu/data')]
+            parameters=[mpu9250_config]
     )
         ])

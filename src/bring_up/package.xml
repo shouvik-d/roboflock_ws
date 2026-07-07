@@ -3,9 +3,36 @@
 <package format="3">
   <name>bring_up</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
+  <description>Top-level orchestration: launch files and configs that bring up the full Roboflock autonomy stack</description>
   <maintainer email="adityasc16@gmail.com">roboflock</maintainer>
-  <license>TODO: License declaration</license>
+  <license>Apache-2.0</license>
+
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>robot_localization</exec_depend>
+  <exec_depend>nav2_bringup</exec_depend>
+  <exec_depend>nav2_controller</exec_depend>
+  <exec_depend>nav2_planner</exec_depend>
+  <exec_depend>nav2_smoother</exec_depend>
+  <exec_depend>nav2_behaviors</exec_depend>
+  <exec_depend>nav2_bt_navigator</exec_depend>
+  <exec_depend>nav2_waypoint_follower</exec_depend>
+  <exec_depend>nav2_lifecycle_manager</exec_depend>
+  <exec_depend>slam_toolbox</exec_depend>
+  <exec_depend>rplidar_ros</exec_depend>
+  <exec_depend>nmea_navsat_driver</exec_depend>
+  <exec_depend>ros2_mpu9250_driver</exec_depend>
+  <exec_depend>rf2o_laser_odometry</exec_depend>
+  <exec_depend>urdf_description</exec_depend>
+  <exec_depend>xacro</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>twist_mux</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>ultrasonic_pkg</exec_depend>
+  <exec_depend>beacon_pkg</exec_depend>
+  <!-- odrive (motor control) is a PyPI package, not a ROS dependency -
+       install separately: pip install odrive -->
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

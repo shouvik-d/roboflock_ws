@@ -17,20 +17,18 @@ def generate_launch_description():
 	return LaunchDescription([
 	
 		DeclareLaunchArgument(
-			'--params_file',
+			'params_file',
 			default_value=params_file_path,
 			description='Path to YAML parameters file'
 		),
-		
+
 		Node(
 			package='ultrasonic_pkg',
 			executable='ultrasonic_publisher',
 			name='ultrasonic_publisher',
 			emulate_tty=True,
 			output='screen',
-			arguments=[{
-				'--params-file': LaunchConfiguration('--params_file'),
-			}]
+			parameters=[LaunchConfiguration('params_file')]
 		),
 	])
 	

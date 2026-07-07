@@ -9,3 +9,10 @@ twist_mux:
         topic: /cmd_vel_joy
         timeout: 0.5
         priority: 100
+      estop:
+        # ultrasonic_estop only publishes while an obstacle is within
+        # min_safe_distance; a short timeout means twist_mux falls back to
+        # navigation/joystick within ~0.3s of the obstacle clearing.
+        topic: /cmd_vel_estop
+        timeout: 0.3
+        priority: 200

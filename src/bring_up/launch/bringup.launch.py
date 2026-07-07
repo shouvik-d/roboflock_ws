@@ -62,12 +62,6 @@ def generate_launch_description():
 		'ultrasonic_publisher.launch.py'
 	)
 		
-	# motor_launch_file = os.path.join(
-	# 	get_package_share_directory('bring_up'),
-	# 	'bring_up',
-	# 	'diff_drive_controller.py'
-	# )
-	
 	beacon_launch_file = os.path.join(
 		get_package_share_directory('beacon_pkg'),
 		'launch',
@@ -181,6 +175,13 @@ def generate_launch_description():
         
         IncludeLaunchDescription(
         	PythonLaunchDescriptionSource(ultrasonic_launch_file),
+        ),
+
+        Node(
+        	package='bring_up',
+        	executable='ultrasonic_estop',
+        	name='ultrasonic_estop',
+        	output='screen',
         )
 	])
 	
@@ -212,39 +213,43 @@ def generate_launch_description():
 	
 	
 	# 5.) Motor Controller >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	# motor_node = GroupAction([
-	# 	LogInfo(msg="*** Starting Motor Controller ***"),
-		
-	# 	IncludeLaunchDescription(
-	# 		PythonLaunchDescriptionSource(motor_launch_file),
-	# 	),
-	# ])
-	
-	
+
+	motor_node = GroupAction([
+		LogInfo(msg="*** Starting Motor Controller ***"),
+
+		Node(
+			package='bring_up',
+			executable='diff_drive_controller',
+			name='diff_drive_controller',
+			output='screen',
+		),
+	])
+
+
 	# 6.) Nav2 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-	
-	# nav2_node = GroupAction([
-	# 	LogInfo(msg="*** Starting Nav2 ***"),
-		
-	# 	Node(
-    #     		package='twist_mux',
-    #     		executable='twist_mux',
-    #     		name='twist_mux',
-    #     		parameters=[os.path.join(
-    #         			get_package_share_directory('bring_up'),
-    #         			'config', 'twist_mux.yaml'
-    #     		)],
-    #    			 remappings=[('/cmd_vel_out', '/cmd_vel')]
-    # 		),
-	# 	IncludeLaunchDescription(
-	# 		PythonLaunchDescriptionSource(nav2_launch_file),
-	# 	),
-		
-	# 	IncludeLaunchDescription(
-	# 		PythonLaunchDescriptionSource(goalpose_launch_file),
-	# 	),
-	# ])
+
+	nav2_node = GroupAction([
+		LogInfo(msg="*** Starting Nav2 ***"),
+
+		Node(
+    			package='twist_mux',
+    			executable='twist_mux',
+    			name='twist_mux',
+    			output='screen',
+    			parameters=[os.path.join(
+        			get_package_share_directory('bring_up'),
+        			'config', 'twist_mux.yaml'
+    			)],
+       			remappings=[('/cmd_vel_out', '/cmd_vel')]
+    		),
+		IncludeLaunchDescription(
+			PythonLaunchDescriptionSource(nav2_launch_file),
+		),
+
+		IncludeLaunchDescription(
+			PythonLaunchDescriptionSource(goalpose_launch_file),
+		),
+	])
 	
 	
 	return launch.LaunchDescription([
@@ -269,12 +274,12 @@ def generate_launch_description():
             period=10.0,
             actions=[slam_node]
         ),
- 
-        # TimerAction(
-        #     period=14.0,
-        #     actions=[motor_node]
-        # ),
- 
+
+        TimerAction(
+            period=14.0,
+            actions=[motor_node]
+        ),
+
         TimerAction(
             period=20.0,
             actions=[nav2_node]

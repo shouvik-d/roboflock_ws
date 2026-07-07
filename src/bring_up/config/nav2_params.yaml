@@ -113,7 +113,7 @@ controller_server:
     use_sim_time: false
     controller_frequency: 10.0
     min_x_velocity_threshold: 0.001
-    min_y_velocity_threshold: 0.5
+    min_y_velocity_threshold: 0.0
     min_theta_velocity_threshold: 0.001
     failure_tolerance: 0.3
     progress_checker_plugin: "progress_checker"
@@ -125,8 +125,12 @@ controller_server:
       movement_time_allowance: 10.0
     goal_checker:
       plugin: "nav2_controller::SimpleGoalChecker"
-      xy_goal_tolerance: 0.25
-      yaw_goal_tolerance: 0.25
+      # Beacon-follow goals are a moving target re-published every time the
+      # beacon moves >0.4m (see beacon_goalpose), not a parking spot - loose
+      # tolerances here avoid fighting consumer-GPS jitter and spinning in
+      # place trying to match an arbitrary final heading every replan.
+      xy_goal_tolerance: 1.5
+      yaw_goal_tolerance: 3.15
       stateful: true
     FollowPath:
       plugin: "nav2_mppi_controller::MPPIController"
@@ -134,12 +138,12 @@ controller_server:
       model_dt: 0.05
       batch_size: 2000
       vx_std: 0.2
-      vy_std: 0.2
+      vy_std: 0.0
       wz_std: 0.4
       vx_max: 0.5
       vx_min: -0.35
-      vy_max: 0.5
-      vy_min: -0.5
+      vy_max: 0.0
+      vy_min: 0.0
       wz_max: 1.9
       wz_min: -1.9
       base_link: base_link
@@ -178,7 +182,7 @@ bt_navigator:
     use_sim_time: false
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /odom/local
+    odom_topic: /odometry/local
     bt_loop_duration: 10
     default_server_timeout: 20
     enable_groot_monitoring: true

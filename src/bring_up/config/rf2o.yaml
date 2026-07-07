@@ -2,7 +2,9 @@ rf2o_laser_odometry:
   ros__parameters:
     laser_scan_topic: /scan
     odom_topic: /odom_rf2o
-    publish_tf: true
+    # false: rf2o only feeds ekf_filter_node_odom via /odom_rf2o; the EKF is
+    # the sole publisher of the odom->base_link transform.
+    publish_tf: false
     base_frame_id: base_link
     odom_frame_id: odom
     init_pose_from_topic: ""

@@ -3,9 +3,9 @@
 <package format="3">
 <name>urdf_description</name>
   <version>0.0.0</version>
-<description>The URDF_description package</description>
-  <maintainer email="todo@todo.com">author</maintainer>
-  <license>TODO: License declaration</license>
+<description>Robot URDF/xacro model, meshes, and display/Gazebo launch files</description>
+  <maintainer email="roboflock@proton.me">roboflock</maintainer>
+  <license>Apache-2.0</license>
 
   <depend>xacro</depend>
   <depend>rviz2</depend>

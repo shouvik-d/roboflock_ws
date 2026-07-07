@@ -9,10 +9,8 @@ CONTROLS:
   Right stick X     Turn left / right  (axis 3: left=+1, right=-1)
   D-pad Up / Down   Increase / decrease linear  speed  (axis 7: up=+1, dn=-1)
   D-pad Rt / Left   Increase / decrease angular speed  (axis 6: lt=+1, rt=-1)
-  PS  (btn ?)       Run BASH_SCRIPT  <- verify BTN_PS index then remove this note
 """
 
-import subprocess
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Joy
@@ -27,13 +25,7 @@ TRIGGER_THRESH = -0.5
 
 AXIS_STEER     = 2    # right stick X: left=+1.0, right=-1.0 
 AXIS_DPAD_Y    = 7     # linear 
-AXIS_DPAD_X    = 6      #angular 
-
-BTN_PS         = 12   #bash
-# -----------------------------------------------------------------------------
-
-# -- Path to your script ------------------------------------------------------
-BASH_SCRIPT = '/home/roboflock/roboflock_ws/src/bring_up/bring_up/bring_up.sh'   # <-- set your path here
+AXIS_DPAD_X    = 6      #angular
 # -----------------------------------------------------------------------------
 
 # Speed limits
@@ -52,22 +44,26 @@ class PS4Teleop(Node):
         # Edge-detection state
         self._prev_dpad_x = 0.0
         self._prev_dpad_y = 0.0
-        self._prev_ps     = 0
 
+        # Default matches twist_mux.yaml's "joystick" input, so this teleop
+        # gets arbitrated against Nav2 when run as part of the full
+        # bringup.launch.py stack. bring_up.sh's standalone/teleop-only mode
+        # overrides this back to 'cmd_vel' (no twist_mux running there).
+        self.declare_parameter('cmd_vel_topic', 'cmd_vel_joy')
+        cmd_vel_topic = self.get_parameter('cmd_vel_topic').value
 
-        # change cmd_vel to cmd_vel_joy for nav2
-        self._cmd_pub = self.create_publisher(Twist, 'cmd_vel', 10)
+        self._cmd_pub = self.create_publisher(Twist, cmd_vel_topic, 10)
         self.create_subscription(Joy, 'joy', self._joy_cb, 10)
 
         self.get_logger().info(
             f'Teleop ready  |  linear={self.linear_speed:.2f} m/s  '
-            f'angular={self.angular_speed:.2f} rad/s'
+            f'angular={self.angular_speed:.2f} rad/s  '
+            f'publishing to {cmd_vel_topic}'
         )
 
     # -- Main callback ---------------------------------------------------------
     def _joy_cb(self, msg: Joy) -> None:
         self._handle_speed_adjust(msg)
-        self._handle_ps_button(msg)
         self._publish_velocity(msg)
 
     # -- Velocity command ------------------------------------------------------
@@ -119,17 +115,6 @@ class PS4Teleop(Node):
                     max(ANGULAR_MIN, self.angular_speed - SPEED_STEP), 2)
                 self.get_logger().info(f'Angular speed -> {self.angular_speed:.2f} rad/s')
             self._prev_dpad_x = dpad_x
-
-    # -- PS button -> run script (fires once on press, not while held) ----------
-    def _handle_ps_button(self, msg: Joy) -> None:
-        ps = msg.buttons[BTN_PS]
-        if ps and not self._prev_ps:
-            self.get_logger().info(f'PS button -> launching {BASH_SCRIPT}')
-            try:
-                subprocess.Popen(['/bin/bash', BASH_SCRIPT])
-            except FileNotFoundError:
-                self.get_logger().error(f'Script not found: {BASH_SCRIPT}')
-        self._prev_ps = ps
 
 
 def main(args=None):

@@ -3,14 +3,21 @@
 <package format="3">
   <name>beacon_pkg</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="marcobia@todo.todo">marcobia</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Converts the beacon's GPS fix into a Nav2 goal pose in the rover's map frame</description>
+  <maintainer email="roboflock@proton.me">roboflock</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>geographic_msgs</depend>
+  <depend>robot_localization</depend>
+  <depend>tf2</depend>
+  <depend>tf2_ros</depend>
+
+  <exec_depend>nmea_navsat_driver</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
